@@ -6,6 +6,7 @@
 var _ = {};
 
 
+
 /**
 * START OF OUR LIBRARY!
 * Implement each function below its instructions
@@ -21,6 +22,10 @@ var _ = {};
 *   _.identity({a: "b"}) === {a: "b"}
 */
 
+
+_.identity= function(value){
+    return value
+}
 
 /** _.typeOf
 * Arguments:
@@ -42,6 +47,30 @@ var _ = {};
 * _.typeOf([1,2,3]) -> "array"
 */
 
+/**
+ * I: function (idk name I think it's an anonymous function) takes any value
+ * O: return type of value as a string
+ * C:
+ * E:
+ */
+
+_.typeOf = function(value){
+    // need to check if value is a certain datatype, a if statement seems to be good
+    // start with simple datatypes
+
+    if (Array.isArray(value)){
+        return 'array'
+    } else if (typeof value === 'object' && value !== null){
+        return 'object'
+    } else if (value === null){
+        return 'null'
+    }
+        return typeof(value)
+
+// well that was a easier way than what I was thinking :/
+
+}
+
 
 /** _.first
 * Arguments:
@@ -61,6 +90,26 @@ var _ = {};
 *   _.first(["a", "b", "c"], 2) -> ["a", "b"]
 */
 
+/**
+ * I: function takes an array and a number
+ * O: if array is noy an array return [], if number don't exist/not a number, return the first element of array
+ *  otherwise, return the first number items of array (????)
+ * C:
+ * E: if number is negatove, if numver greater than array length
+ */
+
+_.first = function(array, number){
+    // check array is actually an array or not
+
+    // what would be the best order to do this??
+    if(Array.isArray(value) !== true){
+        return []
+    }
+
+    if (typeOf(value) !== number){
+        return array[0]
+    }
+}
 
 /** _.last
 * Arguments:
@@ -80,6 +129,13 @@ var _ = {};
 *   _.last(["a", "b", "c"], 2) -> ["b", "c"]
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
+
 
 /** _.indexOf
 * Arguments:
@@ -98,6 +154,13 @@ var _ = {};
 */
 
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
+
 /** _.contains
 * Arguments:
 *   1) An array
@@ -113,6 +176,13 @@ var _ = {};
 *   _.contains([1,"two", 3.14], "two") -> true
 */
 
+
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 /** _.each
 * Arguments:
@@ -131,6 +201,13 @@ var _ = {};
 */
 
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
+
 /** _.unique
 * Arguments:
 *   1) An array
@@ -141,6 +218,13 @@ var _ = {};
 *   _.unique([1,2,2,4,5,6,5,2]) -> [1,2,4,5,6]
 */
 
+
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 /** _.filter
 * Arguments:
@@ -158,6 +242,12 @@ var _ = {};
 *   use _.each in your implementation
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 /** _.reject
 * Arguments:
@@ -172,6 +262,12 @@ var _ = {};
 *   _.reject([1,2,3,4,5], function(e){return e%2 === 0}) -> [1,3,5]
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 /** _.partition
 * Arguments:
@@ -192,6 +288,12 @@ var _ = {};
 }
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 /** _.map
 * Arguments:
@@ -209,6 +311,38 @@ var _ = {};
 *   _.map([1,2,3,4], function(e){return e * 2}) -> [2,4,6,8]
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
+
+/*
+_.map =  function(collection, func){
+    const output = [];
+
+// determine if collect is an array
+    if(Array.isArray(collection)){ // iterate using a loop
+        for (let i = 0; i < collection.length; i++){
+            // call func for each element pass
+            const result = func(collection[i], i, collection);
+            output.push(result)
+        }
+    } else { // else it's an object
+        // iteratre through object
+    }
+
+
+
+    return output
+}
+
+*/
+
+// whats the callback function
+    // purpose => return modifed verion of the current item in the array
+// takes an array and transform then into something else and return it as a new array
 
 /** _.pluck
 * Arguments:
@@ -221,6 +355,12 @@ var _ = {};
 *   _.pluck([{a: "one"}, {a: "two"}], "a") -> ["one", "two"]
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 /** _.every
 * Arguments:
@@ -242,6 +382,13 @@ var _ = {};
 *   _.every([2,4,6], function(e){return e % 2 === 0}) -> true
 *   _.every([1,2,3], function(e){return e % 2 === 0}) -> false
 */
+
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 
 /** _.some
@@ -265,6 +412,13 @@ var _ = {};
 *   _.some([1,2,3], function(e){return e % 2 === 0}) -> true
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
+
 
 /** _.reduce
 * Arguments:
@@ -285,6 +439,13 @@ var _ = {};
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
 
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
+
 
 /** _.extend
 * Arguments:
@@ -300,6 +461,13 @@ var _ = {};
 *   _.extend(data, {b:"two"}); -> data now equals {a:"one",b:"two"}
 *   _.extend(data, {a:"two"}); -> data now equals {a:"two"}
 */
+
+/**
+ * I: function takes
+ * O: return 
+ * C:
+ * E:
+ */
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
