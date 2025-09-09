@@ -54,6 +54,7 @@ _.identity= function(value){
  * E:
  */
 
+
 _.typeOf = function(value){
     // need to check if value is a certain datatype, a if statement seems to be good
     // start with simple datatypes
@@ -66,6 +67,8 @@ _.typeOf = function(value){
         return 'null'
     }
         return typeof(value)
+
+
 
 // well that was a easier way than what I was thinking :/
 
@@ -95,21 +98,37 @@ _.typeOf = function(value){
  * O: if array is noy an array return [], if number don't exist/not a number, return the first element of array
  *  otherwise, return the first number items of array (????)
  * C:
- * E: if number is negatove, if numver greater than array length
+ * E: if number is negative do something, if number greater than array length do something as well
  */
+
 
 _.first = function(array, number){
     // check array is actually an array or not
 
     // what would be the best order to do this??
-    if(Array.isArray(value) !== true){
+   
+    if(!Array.isArray(array)){
         return []
     }
+    
 
-    if (typeOf(value) !== number){
+    if (typeof number !== 'number'){
         return array[0]
     }
+
+    // figure out those edge cases :/
+
+    if (number < 0){
+        return number // probaby
+    }
+
+    if (number > array.length){
+        return number; // I guess idk :/
+    }
+
+    return array[0]
 }
+
 
 /** _.last
 * Arguments:
@@ -130,11 +149,17 @@ _.first = function(array, number){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes an array and a number
+ * O: if array is noy an array return [], if number don't exist/not a number, return the first element of array
+ *  otherwise, return the first number items of array (????)
  * C:
- * E:
+ * E: if number is negative do something, if number greater than array length do something as well
  */
+
+_.last = function(array, number){
+
+
+}
 
 
 /** _.indexOf
@@ -390,6 +415,20 @@ _.map =  function(collection, func){
  * E:
  */
 
+/* _.every = function(collection, test){
+    if (Array.isArray(collection)){
+        if(test === undefined){
+
+        } else {
+
+        }
+
+    } else { // test did get a functiob
+
+    }
+}
+
+*/
 
 /** _.some
 * Arguments:
