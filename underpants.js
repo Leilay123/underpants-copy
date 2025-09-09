@@ -119,15 +119,17 @@ _.first = function(array, number){
     // figure out those edge cases :/
 
     if (number < 0){
-        return number // probaby
+        return [] // probaby
     }
 
     if (number > array.length){
-        return number; // I guess idk :/
+        return array; // I guess idk :/
     }
 
-    return array[0]
+    return array.slice(0, number)
 }
+
+//_.first(['a', 'b', 'c', 'd'], 2); // => ['a', 'b']
 
 
 /** _.last
@@ -150,14 +152,35 @@ _.first = function(array, number){
 
 /**
  * I: function takes an array and a number
- * O: if array is noy an array return [], if number don't exist/not a number, return the first element of array
- *  otherwise, return the first number items of array (????)
+ * O: if array is noy an array return [], if number don't exist/not a number, return the last element of array
+ *  otherwise, return the first number items of array (.slice method)
  * C:
  * E: if number is negative do something, if number greater than array length do something as well
  */
 
 _.last = function(array, number){
+    //If <array> is not an array, return []
+    
+    if(Array.isArray(array) === false){
+        return []
+    }
 
+    //If <number> is not given or not a number, return just the last element in <array>.
+
+     if (typeof number !== 'number'){
+        return array.pop()
+    }
+
+    if (number < 0){
+        return [] // probaby
+    }
+
+    if (number > array.length){
+        return array; // I guess idk :/
+    }
+
+    return array.slice(array.length - number)
+   
 
 }
 
@@ -180,11 +203,26 @@ _.last = function(array, number){
 
 
 /**
- * I: function takes
- * O: return 
- * C:
- * E:
+ * I: function takes an array and a value
+ * O: return the indext on <array> that is the first occurrance of value (okay???)
+ *    return -1 if value is not in <array>
+ * C: Don't use [].indexOf()
+ * E: What if <array> has multiple occurances of val? What if <val> isn't in <array>?
  */
+
+_.indexOf = function (array, value){
+
+    // return the index of arrau thats the first occurrance of value
+    // loop?
+
+    for (var i = 0; i < array.length; i++){
+        if (array[i] === value){
+            return i
+    }
+    
+    }
+    return -1
+}
 
 /** _.contains
 * Arguments:
@@ -203,12 +241,26 @@ _.last = function(array, number){
 
 
 /**
- * I: function takes
- * O: return 
- * C:
- * E:
+ * I: function takes array and value
+ * O: return true if array contains value, return false otherwise
+ * C: ternary operator
+ * E: did you use === ? what if no <value> is given?
  */
 
+_.contains = function(array, value){
+
+    // return true if array contains value
+    // LOOPS :D
+
+    for (var i = 0; i < array.length; i++){
+        //ternary operator????? okqay...
+        if(array[i] === value){
+            return true
+        }
+    
+}
+  return false
+}
 /** _.each
 * Arguments:
 *   1) A collection
@@ -227,11 +279,29 @@ _.last = function(array, number){
 
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes a collection and a function
+ * O: if collection is array, call function for each element for each argument(?)
+ *    if collection is object, call function once for each propery with arguments 
  * C:
  * E:
  */
+
+_.each = function (collection, func){
+    // do arrays first
+
+    if(Array.isArray(collection)){
+        for (var i = 0; i < collection.length; i++){
+            func(collection[i], i, collection)
+        } //do objects
+    } else if (typeof collection === 'object' && collection !== null){
+        for (let key in collection){
+            if(collection.hasOwnProperty(key)){
+                func(collection[key], key, collection)
+            }
+        }
+    }
+
+}
 
 /** _.unique
 * Arguments:
@@ -245,11 +315,25 @@ _.last = function(array, number){
 
 
 /**
- * I: function takes
- * O: return 
- * C:
+ * I: function takes array
+ * O: return a new array with all duplicates removed
+ * C: use _.index()
  * E:
  */
+
+_.unique = function (array){
+    // new array
+     var dupArray = []
+
+    for (var i = 0; i < array.length; i++){
+        // how do I use _.unique like this?
+        if(_.indexOf(dupArray, array[i]) === -1){
+            dupArray.push(array[i])
+        }
+    }
+
+    return dupArray
+}
 
 /** _.filter
 * Arguments:
@@ -268,11 +352,26 @@ _.last = function(array, number){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes array and function
+ * O: call <function> for each element in <array> passing the arguments:
+*      the element, it's index, <array>
+*     return a new array of elements for which calling <function> returned true 
  * C:
- * E:
+ * E: if <function> returns something other than true or false?
  */
+
+_.filter = function (array, func){
+    // new array hold
+    var filterArray = []
+
+    _.each(array, function(element, index, arr) {
+        if (func(element, index, arr)) {
+            filterArray.push(element)
+        }
+    })
+
+    return filterArray
+}
 
 /** _.reject
 * Arguments:
@@ -288,11 +387,26 @@ _.last = function(array, number){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes array and function
+ * O: call <function> for each element in <array> passing the arguments:
+*      the element, it's index, <array>
+*      return a new array of elements for which calling <function> returned false 
  * C:
  * E:
  */
+
+_.reject = function (array, func){
+    var rejectArray = []
+
+    _.each(array, function(element, index, arr) {
+        if (!func(element, index, arr)) {
+            rejectArray.push(element)
+        }
+    })
+
+    return rejectArray
+}
+
 
 /** _.partition
 * Arguments:
@@ -314,11 +428,36 @@ _.last = function(array, number){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes array and function
+ * O: 1) Call <function> for each element in <array> passing it the arguments:
+*       element, key, <array>
+*   2) Return an array that is made up of 2 sub arrays:
+*       0) An array that contains all the values for which <function> returned something truthy
+*       1) An array that contains all the values for which <function> returned something falsy 
  * C:
- * E:
+ * E: This is going to return an array of arrays.
  */
+
+_.partition = function(array, func){
+    // I think I need 2 arrays, one for truthy and falsy
+
+    var truth = []
+    var falsy = []
+
+    // I have a each thingy
+
+    _.each(array, function(element, index, array) {
+        if (func(element, index, array)) {
+            truth.push(element)
+        } else {
+            falsy.push(element)
+        }
+    })
+
+return [truth, falsy]
+
+
+}
 
 /** _.map
 * Arguments:
@@ -343,7 +482,7 @@ _.last = function(array, number){
  * E:
  */
 
-/*
+
 _.map =  function(collection, func){
     const output = [];
 
@@ -355,7 +494,12 @@ _.map =  function(collection, func){
             output.push(result)
         }
     } else { // else it's an object
-        // iteratre through object
+        for (var key in collection){
+            if (collection.hasOwnProperty(key)){
+                var mapResults = func(collection[key], key, collection)
+                output.push(mapResults)
+            }
+        }
     }
 
 
@@ -363,7 +507,7 @@ _.map =  function(collection, func){
     return output
 }
 
-*/
+
 
 // whats the callback function
     // purpose => return modifed verion of the current item in the array
@@ -381,11 +525,15 @@ _.map =  function(collection, func){
 */
 
 /**
- * I: function takes
- * O: return 
- * C:
+ * I: function takes array of objects and a property
+ * O: return array containing the value of <property> for every element in <array>
+ * C:  _.map()
  * E:
  */
+
+_.pluck = function (array, property){
+    
+}
 
 /** _.every
 * Arguments:
