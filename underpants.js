@@ -574,19 +574,47 @@ _.pluck = function (array, property){
  *    2) What if <function> is not given?
  */
 
- _.every = function (collection, func){
 
-    // if collection is array
-    if (Array.isArray(collection)){
-        func(){}
+// These seem to be like method types so imma see what .every() means
+
+_.every = function(collection, func) {
+    // If collection is undefined or null, return false
+    if (collection == null) {
+        return false;
     }
 
+    // If no function is provided
+    if (func === undefined) {
+        // For array
+        if (Array.isArray(collection)) {
+            return collection.every(Boolean);
+        }
 
-    // if collection is obj
-    if (typeof collection === 'object' && collection !== null){
-
+        // For objects
+        if (typeof collection === 'object' && collection !== null) {
+            for (let key in collection) {
+                if (!collection[key]) return false;
+            }
+            return true;
+        }
     }
- }
+
+    // If function is provided
+    if (Array.isArray(collection)) {
+        return collection.every(function(element, index) {
+            return func(element, index, collection);
+        });
+    }
+
+    if (typeof collection === 'object' && collection !== null) {
+        return Object.entries(collection).every(function([key, value]) {
+            return func(value, key, collection);
+        });
+    }
+
+    return false;
+};
+
 
 /** _.some
 * Arguments:
@@ -610,11 +638,50 @@ _.pluck = function (array, property){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes collection and function 
+ * O: 1) Call <function> for every element of <collection> with the paramaters:
+*       if <collection> is an array:
+*        current element, it's index, <collection>
+*       if <collection> is an object:
+*        current value, current key, <collection>
+*   2) If the return value of calling <function> is true for at least one element, return true
+*   3) If it is false for all elements, return false
+*   4) If <function> is not provided return true if at least one element is truthy, otherwise return false 
  * C:
- * E:
+ * E: 1) what if <function> doesn't return a boolean
+*     2) What if <function> is not given?
  */
+
+// what .some() means? I thibk I see the => assoicated with it
+
+_.some = function(collection, func){
+    // check if function is even probvied
+
+    if(typeof func !== 'function'){
+        return collection.some(item => item)
+    }
+
+
+    // array
+    if (Array.isArray(collection) === true){
+        for (var i = 0; i < collection.length; i++) {
+            if(func(collection[i], i, collection)){
+                return true
+            }
+        }
+    } // object, do I need a else if? Collections are either arrays ir objecys
+    else { 
+        for (var key in collection){
+            if (collection.hasOwnProperty(key) && func(collection[key], key, collection)){
+                    return true
+            }
+        }
+
+    }
+
+return false
+    
+}
 
 
 /** _.reduce
@@ -636,12 +703,44 @@ _.pluck = function (array, property){
 *   _.reduce([1,2,3], function(previousSum, currentValue, currentIndex){ return previousSum + currentValue }, 0) -> 6
 */
 
+// okay whatever that means
+
 /**
- * I: function takes
- * O: return 
+ * I: function takes an array, function and a seed
+ * O: Call <function> for every element in <collection> passing the arguments:
+*         previous result, element, index
+*   2) Use the return value of <function> as the "previous result"
+*      for the next iteration
+*   3) On the very first iteration, use <seed> as the "previous result"
+*   4) If no <seed> was given, use the first element/value of <collection> as <seed> and continue to the next element
+*   5) After the last iteration, return the return value of the final <function> call 
  * C:
- * E:
+ * E: if <seed> is not given?
  */
+
+_.reduce = function (array, func, seed){
+
+// assuming that imma need someththing called 'previous result'
+var previousResult
+
+    // no seed
+    if (seed === undefined){
+        previousResult = array[0]
+
+        for (var i = 1; i < array.length; i++){
+            previousResult = func(previousResult, array[i], i);
+        }
+    } else {
+        previousResult = seed;
+
+    for (let i = 0; i < array.length; i++) {
+      previousResult = func(previousResult, array[i], i);
+    }
+  }
+
+  return previousResult
+
+}
 
 
 /** _.extend
@@ -660,11 +759,28 @@ _.pluck = function (array, property){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes... objects? but a whole lot of them
+ * O: return the object with the new copied properties from the other object
  * C:
  * E:
  */
+
+// oh it's like that ...thingy. It takes an unknown number of objects so uhhh... I guess the spread sythax
+
+_.extend = function (target, ...sources){
+    sources.forEach(source => {
+
+        // loop through the properties in current object
+        for (let key in source) {
+          if (source.hasOwnProperty(key)) {
+            // give the propert to the target
+            target[key] = source[key];
+          }
+        }
+      });
+      return target;
+}
+
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
