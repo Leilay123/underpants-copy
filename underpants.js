@@ -532,6 +532,9 @@ _.map =  function(collection, func){
  */
 
 _.pluck = function (array, property){
+    return _.map(array, function(item){
+        return item[property]
+    })
     
 }
 
@@ -557,26 +560,33 @@ _.pluck = function (array, property){
 */
 
 /**
- * I: function takes
- * O: return 
+ * I: function takes collection and a function
+ * O: 1) Call <function> for every element of <collection> with the paramaters:
+*      if <collection> is an array:
+*          current element, it's index, <collection>
+*      if <collection> is an object:
+*          current value, current key, <collection>
+*   2) If the return value of calling <function> for every element is true, return true
+*   3) If even one of them returns false, return false
+*   4) If <function> is not provided, return true if every element is truthy, otherwise return false 
  * C:
- * E:
+ * E: 1) what if <function> doesn't return a boolean
+ *    2) What if <function> is not given?
  */
 
-/* _.every = function(collection, test){
+ _.every = function (collection, func){
+
+    // if collection is array
     if (Array.isArray(collection)){
-        if(test === undefined){
+        func(){}
+    }
 
-        } else {
 
-        }
-
-    } else { // test did get a functiob
+    // if collection is obj
+    if (typeof collection === 'object' && collection !== null){
 
     }
-}
-
-*/
+ }
 
 /** _.some
 * Arguments:
