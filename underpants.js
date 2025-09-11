@@ -766,15 +766,17 @@ var previousResult
  */
 
 // oh it's like that ...thingy. It takes an unknown number of objects so uhhh... I guess the spread sythax
+// it's like object.assign()
+// target + ...object
 
-_.extend = function (target, ...sources){
-    sources.forEach(source => {
+_.extend = function (target, ...object){
+    object.forEach(object => {
 
         // loop through the properties in current object
-        for (let key in source) {
-          if (source.hasOwnProperty(key)) {
+        for (let key in object) {
+          if (object.hasOwnProperty(key)) {
             // give the propert to the target
-            target[key] = source[key];
+            target[key] = object[key];
           }
         }
       });
